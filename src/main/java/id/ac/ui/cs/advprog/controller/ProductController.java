@@ -31,10 +31,18 @@ public class ProductController {
     }
 
     @GetMapping("/update/{Id}")
-    public String updateProductPost(@PathVariable String Id, Model model) {
+    public String updateProductGet(@PathVariable String Id, Model model) {
         Product product = service.findById(Id);
         model.addAttribute("product", product);
         return "updateProduct";
+    }
+
+    @PostMapping("/update")
+    public String updateProductPost(@ModelAttribute Product updatedProduct, Model model) {
+        Product product = service.findById(updatedProduct.getProductId());
+        product.setProductName(updatedProduct.getProductName());
+        product.setProductQuantity(updatedProduct.getProductQuantity());
+        return "redirect:list";
     }
 
     @GetMapping("/list")
