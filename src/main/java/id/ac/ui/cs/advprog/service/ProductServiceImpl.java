@@ -5,9 +5,7 @@ import id.ac.ui.cs.advprog.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -17,8 +15,19 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product create(Product product) {
+        product.setProductId(UUID.randomUUID().toString());
         productRepository.create(product);
         return product;
+    }
+
+    @Override
+    public Product update(Product product) {
+        return product;
+    }
+
+    @Override
+    public Product findById(String Id){
+        return productRepository.findById(Id);
     }
 
     @Override
