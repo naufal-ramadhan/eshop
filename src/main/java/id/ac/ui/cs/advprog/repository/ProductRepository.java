@@ -21,8 +21,16 @@ public class ProductRepository {
                 .filter(product -> product.getProductId().equals(id)).findFirst().orElse(null);
     }
 
-    public Product update(Product product) {
-        productData.add(product);
+    public Boolean existById(String id) {
+        return productData.stream().anyMatch(product -> product.getProductId().equals(id));
+    }
+
+    public Product update(Product updatedProduct) {
+        return updatedProduct;
+    }
+
+    public Product delete(Product product) {
+        productData.remove(product);
         return product;
     }
 

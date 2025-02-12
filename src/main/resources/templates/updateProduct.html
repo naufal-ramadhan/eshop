@@ -9,6 +9,11 @@
 
 <div class="container my-4">
     <h2>Update Product</h2>
+
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+    </div>
+
     <form th:action="@{/product/update}" th:object="${product}" method="post">
         <input type="hidden" th:field="*{productId}">
 
