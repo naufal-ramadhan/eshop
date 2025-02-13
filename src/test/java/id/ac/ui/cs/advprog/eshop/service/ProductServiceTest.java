@@ -37,6 +37,9 @@ class ProductServiceTest {
         this.product.setProductQuantity(10);
     }
 
+    /**
+     * Test Update jika update ditemukan, tidak ditemukan, dan attribute tidak valid
+     */
     @Test
     void updateProductTest() {
         // Inisialisasi Mock
@@ -85,9 +88,35 @@ class ProductServiceTest {
         assertNotNull(product);
         assertEquals("mobil", product.getProductName());
         assertEquals(20, product.getProductQuantity());
-
-
-
     }
 
+    @Test
+    void deleteProductTestIfExist(){
+        // Inisiasi
+        when(productRepository.existById(product.getProductId())).thenReturn(true);
+        when(productRepository.delete(product)).thenReturn(product);
+
+        // Validasi Behaviour
+        assertNotNull(product);
+        assertEquals(true, productRepository.existById(product.getProductId()));
+        assertEquals(product, productRepository.delete(product));
+
+        // Assert Delete if Exist
+        assertEquals(product, productService.delete(product));
+    }
+
+    @Test
+    void deleteProductTestIfNotExist(){
+        // Inisiasi
+        when(productRepository.existById(product.getProductId())).thenReturn(false);
+
+        // Validasi Behaviour
+        assertNotNull(product);
+        assertEquals(false, productRepository.existById(product.getProductId()));
+
+        // Assert Delete if Not Exist
+        assertThrows(NoSuchElementException.class, () -> {
+            productService.delete(product);
+        });
+    }
 }
