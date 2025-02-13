@@ -10,7 +10,7 @@
 <div class="container">
     <h3>Create New Product</h3>
 
-    <div th:if="${error}" class="alert alert-danger">
+    <div th:if="${error}" id="errorAlert" class="alert alert-danger">
         <p th:text="${error}"></p>
     </div>
 
