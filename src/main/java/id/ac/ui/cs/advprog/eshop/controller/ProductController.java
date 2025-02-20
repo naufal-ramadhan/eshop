@@ -27,7 +27,7 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public String createProductPost(@ModelAttribute Product product, Model model) {
+    public String createProductPost(@ModelAttribute final Product product, Model model) {
         try {
             service.create(product);
         } catch (IllegalStateException e) {
