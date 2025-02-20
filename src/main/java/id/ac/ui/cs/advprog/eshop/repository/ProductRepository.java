@@ -16,13 +16,13 @@ public class ProductRepository {
         return product;
     }
 
-    public Product findById(final String id) {
+    public Product findById(final String productId) {
         return productData.stream()
-                .filter(product -> product.getProductId().equals(id)).findFirst().orElse(null);
+                .filter(product -> product.getProductId().equals(productId)).findFirst().orElse(null);
     }
 
-    public Boolean existById(final String id) {
-        return productData.stream().anyMatch(product -> product.getProductId().equals(id));
+    public Boolean existById(final String productId) {
+        return productData.stream().anyMatch(product -> product.getProductId().equals(productId));
     }
 
     public Product update(final Product updatedProduct) {
