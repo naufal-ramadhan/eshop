@@ -65,7 +65,7 @@ public class ProductController {
 
     @PostMapping("/delete")
     public String deleteProduct(@RequestParam("productId") final String productId, final Model model) {
-        Product product = service.findById(productId);
+        final Product product = service.findById(productId);
         try{
             service.delete(product);
         } catch (NoSuchElementException e){

@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(Product updatedProduct) throws IllegalStateException, NoSuchElementException{
+    public Product update(final Product updatedProduct) throws IllegalStateException, NoSuchElementException{
         if (updatedProduct.getProductQuantity() < 0 || updatedProduct.getProductName().isEmpty()){
             throw new IllegalStateException("Product quantity cannot be less than 0");
         }
@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product delete(Product product) throws NoSuchElementException {
+    public Product delete(final Product product) throws NoSuchElementException {
         if (productRepository.existById(product.getProductId()) == false){
             throw new NoSuchElementException("Product not found");
         }
@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findById(String productId){
+    public Product findById(final String productId){
         return productRepository.findById(productId);
     }
 
