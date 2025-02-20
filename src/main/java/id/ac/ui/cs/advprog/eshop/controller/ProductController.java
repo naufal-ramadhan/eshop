@@ -28,13 +28,15 @@ public class ProductController {
 
     @PostMapping("/create")
     public String createProductPost(@ModelAttribute final Product product, final Model model) {
+        String viewName = "redirect:list";
         try {
             service.create(product);
         } catch (IllegalStateException e) {
             model.addAttribute("error", "Quantity Cannot be Negative or Name cannot be empty");
-            return "createProduct";
+            viewName = "createProduct";
         }
-        return "redirect:list";
+
+        return viewName;  // Single exit point
     }
 
     @GetMapping("/update/{productId}")
