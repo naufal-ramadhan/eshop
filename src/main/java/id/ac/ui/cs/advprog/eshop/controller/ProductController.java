@@ -64,7 +64,7 @@ public class ProductController {
     }
 
     @PostMapping("/delete")
-    public String deleteProduct(@RequestParam("productId") String productId,Model model) {
+    public String deleteProduct(@RequestParam("productId") final String productId, final Model model) {
         Product product = service.findById(productId);
         try{
             service.delete(product);
@@ -76,8 +76,8 @@ public class ProductController {
     }
 
     @GetMapping("/list")
-    public String productListPage(Model model){
-        List<Product> allProducts = service.findAll();
+    public String productListPage(final Model model){
+        final List<Product> allProducts = service.findAll();
         model.addAttribute("products", allProducts);
         return "productList";
     }
