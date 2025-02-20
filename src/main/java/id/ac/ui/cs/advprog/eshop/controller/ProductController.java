@@ -18,7 +18,6 @@ import java.util.NoSuchElementException;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
-
     @Autowired
     private ProductService service;
 
@@ -51,16 +50,17 @@ public class ProductController {
 
     @PostMapping("/update")
     public String updateProductPost(@ModelAttribute final Product updatedProduct, final Model model) {
+        String viewName = "redirect:list";
         try{
             service.update(updatedProduct);
         } catch (IllegalStateException e){
             model.addAttribute("error", "Quantity Cannot be Negative or Name cannot be empty");
-            return "updateProduct";
+            viewName = "updateProduct";
         } catch (NoSuchElementException e) {
             model.addAttribute("error", "Product not found");
-            return "updateProduct";
+            viewName = "updateProduct";
         }
-        return "redirect:list";
+        return viewName;
     }
 
     @PostMapping("/delete")
