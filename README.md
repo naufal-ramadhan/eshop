@@ -86,3 +86,28 @@ Jawaban :
 1.  Setelah saya membuat unit test, saya jadi memikirkan mungkin case-case yang sebelumnya tidak kepikira, selain itu juga melatih saya lebih baik pada pembuatan testing. Jumlah unit test yang dibuat dalam satu class berjumlah relatif, tergantung dari ukuran classnya, tetapi target yang bisa kita kejar adalah menyentuh 100% coverage dan sudah pikirkan edge case untuk di handle. Jika kita sudah mencapai 100% coverage, itu bukan berarti code kita bebas dari bug dan error!, karena code coverage artinya dia sudah mengecek seluruh line of code dengan input yang kita buat yang akan disesuaikan dengan output yang kita harapkan, tetapi bukan berarti sudah me-handle seluruh kemungkinan, karena input dan output yang di-assert adalah yang kita buat sendiri.
 2.  Jika kita melakukan prosedur yang sama dan inisiasis variabel yang sama, tentu ini akan mengurangi kualitas kebersihan kode, karena akan terjadi redundansi kode dan menambahkan yang tidak perlu. Selain itu, akan susah juga untuk me-maintain code nya, karena semua kode mengikuti set-up yang sama, jika ada perubahan maka perlu diganti juga di semua code yang lain.
 </details>
+
+<details>
+  <summary>
+    Module 2
+  </summary>
+
+### Reflection
+1.  List the code quality issue(s) that you fixed during the exercise and explain your strategy on fixing them.
+2.  Look at your CI/CD workflows (GitHub)/pipelines (GitLab). Do you think the current implementation has met the definition of Continuous Integration and Continuous Deployment? Explain the reasons (minimum 3 sentences)!
+
+---
+Jawaban :
+1.  Beberapa kesalahan kualitas kode yang sudah saya jumpai sebagai berikut :
+* Unused Import
+* Improper Naming Convention
+* Not Declaring final in unassigned Parameter and local Variables
+* Not Implementing Only One Exit Point
+* Unnecessary Constructor
+* Too Short for Naming Variables
+* Unnecessary Public modifier in interface <br>
+
+  Strategi yang saya gunakan untuk fix beberapa kesalahan kode tersebut dengan melakukan code analysis checking menggunakan github actions PMD, dan melihat hasil dari analysisnya pada sarif file yang di upload sebagai artifacts di github action. Kemudian saya lihat log detailnya untuk menemukan lokasi kesalahan dari kode yang bersangkutan.
+
+2. workflow pada repo ini sudah mencakup Serangkaian dari CI (Continuous Integration) seperti Testing (Unit test) menggunakan Junit ketika kita melakukan pull request atau push ke seluruh branch, lalu Code Analysis menggunakan ScoreCard untuk branch master dan juga PMD untuk seluruh branch, selain itu workflowsnya juga lakukan upload artifacts untuk loggin atau hasil dari code analysis. Untuk Continuous Deployment (CD) juga sudah memenuhi dengan mengimplementasikan layanan koyeb yang akan me-track changes di branch master saya ketika ada perubahan dan akan lakukan auto deployment. Sehingga menurut saya pengaplikasian beberapa jobs pada workflow saya sudah bisa memenuhi definisi Continuous Integration and Continuous Deployment, karena sudah secara otomatatis dam berkelajutan melakukan integrasi dan deployment ketika terdapat perubahan
+</details>
