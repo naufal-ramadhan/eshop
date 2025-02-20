@@ -14,7 +14,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public Product create(Product product) throws IllegalStateException{
+    public Product create(final Product product) throws IllegalStateException{
         product.setProductId(UUID.randomUUID().toString());
 
         if (product.getProductQuantity() < 0 || product.getProductName().isEmpty()){
@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalStateException("Product quantity cannot be less than 0");
         }
 
-        Product product = productRepository.findById(updatedProduct.getProductId());
+        final Product product = productRepository.findById(updatedProduct.getProductId());
         if (product == null) {
             throw new NoSuchElementException("Product not found");
         }
@@ -56,8 +56,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findAll() {
-        Iterator<Product> productIterator = productRepository.findAll();
-        List<Product> allProduct = new ArrayList<>();
+        final Iterator<Product> productIterator = productRepository.findAll();
+        final List<Product> allProduct = new ArrayList<>();
         productIterator.forEachRemaining(allProduct::add);
         return allProduct;
     }
