@@ -20,7 +20,7 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping("/create")
-    public String createProductPage(Model model) {
+    public String createProductPage(final Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
         return "createProduct";
