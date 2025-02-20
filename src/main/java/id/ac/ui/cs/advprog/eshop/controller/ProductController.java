@@ -63,9 +63,9 @@ public class ProductController {
             service.delete(product);
         } catch (NoSuchElementException e){
             model.addAttribute("error", "Product not found");
-        } finally {
-            return "redirect:list";
         }
+
+        return "redirect:list";
     }
 
     @GetMapping("/list")
