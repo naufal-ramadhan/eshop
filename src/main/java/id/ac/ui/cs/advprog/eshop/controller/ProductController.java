@@ -21,7 +21,7 @@ public class ProductController {
 
     @GetMapping("/create")
     public String createProductPage(final Model model) {
-        Product product = new Product();
+        final Product product = new Product();
         model.addAttribute("product", product);
         return "createProduct";
     }
