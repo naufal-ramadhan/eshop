@@ -14,7 +14,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public Product create(Product product) throws IllegalStateException{
+    public Product create(final Product product) throws IllegalStateException{
         product.setProductId(UUID.randomUUID().toString());
 
         if (product.getProductQuantity() < 0 || product.getProductName().isEmpty()){
@@ -26,12 +26,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(Product updatedProduct) throws IllegalStateException, NoSuchElementException{
+    public Product update(final Product updatedProduct) throws IllegalStateException, NoSuchElementException{
         if (updatedProduct.getProductQuantity() < 0 || updatedProduct.getProductName().isEmpty()){
             throw new IllegalStateException("Product quantity cannot be less than 0");
         }
 
-        Product product = productRepository.findById(updatedProduct.getProductId());
+        final Product product = productRepository.findById(updatedProduct.getProductId());
         if (product == null) {
             throw new NoSuchElementException("Product not found");
         }
@@ -42,7 +42,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product delete(Product product) throws NoSuchElementException {
+    public Product delete(final Product product) throws NoSuchElementException {
         if (productRepository.existById(product.getProductId()) == false){
             throw new NoSuchElementException("Product not found");
         }
@@ -50,14 +50,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findById(String Id){
-        return productRepository.findById(Id);
+    public Product findById(final String productId){
+        return productRepository.findById(productId);
     }
 
     @Override
     public List<Product> findAll() {
-        Iterator<Product> productIterator = productRepository.findAll();
-        List<Product> allProduct = new ArrayList<>();
+        final Iterator<Product> productIterator = productRepository.findAll();
+        final List<Product> allProduct = new ArrayList<>();
         productIterator.forEachRemaining(allProduct::add);
         return allProduct;
     }

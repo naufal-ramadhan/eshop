@@ -11,25 +11,25 @@ import java.util.List;
 public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
 
-    public Product create(Product product) {
+    public Product create(final Product product) {
         productData.add(product);
         return product;
     }
 
-    public Product findById(String id) {
+    public Product findById(final String productId) {
         return productData.stream()
-                .filter(product -> product.getProductId().equals(id)).findFirst().orElse(null);
+                .filter(product -> product.getProductId().equals(productId)).findFirst().orElse(null);
     }
 
-    public Boolean existById(String id) {
-        return productData.stream().anyMatch(product -> product.getProductId().equals(id));
+    public Boolean existById(final String productId) {
+        return productData.stream().anyMatch(product -> product.getProductId().equals(productId));
     }
 
-    public Product update(Product updatedProduct) {
+    public Product update(final Product updatedProduct) {
         return updatedProduct;
     }
 
-    public Product delete(Product product) {
+    public Product delete(final Product product) {
         productData.remove(product);
         return product;
     }
