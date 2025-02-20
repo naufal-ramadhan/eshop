@@ -43,14 +43,14 @@ public class ProductController {
     }
 
     @GetMapping("/update/{productId}")
-    public String updateProductGet(@PathVariable String productId, Model model) {
-        Product product = service.findById(productId);
+    public String updateProductGet(@PathVariable final String productId, final Model model) {
+        final Product product = service.findById(productId);
         model.addAttribute("product", product);
         return "updateProduct";
     }
 
     @PostMapping("/update")
-    public String updateProductPost(@ModelAttribute Product updatedProduct, Model model) {
+    public String updateProductPost(@ModelAttribute final Product updatedProduct, final Model model) {
         try{
             service.update(updatedProduct);
         } catch (IllegalStateException e){
