@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public interface ProductService {
-    public Product create(Product product) throws IllegalArgumentException;
-    public Product update(Product product) throws IllegalStateException, NoSuchElementException;
-    public Product delete(Product product) throws NoSuchElementException;
-    public  Product findById(String productId) ;
-    public List<Product> findAll();
+    Product create(Product product) throws IllegalArgumentException;
+    Product update(Product product) throws IllegalStateException, NoSuchElementException;
+    Product delete(Product product) throws NoSuchElementException;
+    Product findById(String productId) ;
+    List<Product> findAll();
 }
