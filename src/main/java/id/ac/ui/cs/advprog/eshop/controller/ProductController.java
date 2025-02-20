@@ -19,8 +19,6 @@ import java.util.NoSuchElementException;
 @RequestMapping("/product")
 public class ProductController {
 
-    public ProductController() {}
-
     @Autowired
     private ProductService service;
 
