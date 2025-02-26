@@ -1,7 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
 import id.ac.ui.cs.advprog.eshop.model.Product;
-import id.ac.ui.cs.advprog.eshop.repository.ProductRepository;
+import id.ac.ui.cs.advprog.eshop.repository.ProductRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.*;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductRepositoryImpl productRepositoryImpl;
 
     @Override
     public Product create(final Product product) throws IllegalStateException{
@@ -21,7 +21,7 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalStateException("Product quantity cannot be less than 0");
         }
 
-        productRepository.create(product);
+        productRepositoryImpl.create(product);
         return product;
     }
 
@@ -31,32 +31,32 @@ public class ProductServiceImpl implements ProductService {
             throw new IllegalStateException("Product quantity cannot be less than 0");
         }
 
-        final Product product = productRepository.findById(updatedProduct.getProductId());
+        final Product product = productRepositoryImpl.findById(updatedProduct.getProductId());
         if (product == null) {
             throw new NoSuchElementException("Product not found");
         }
 
         product.setProductQuantity(updatedProduct.getProductQuantity());
         product.setProductName(updatedProduct.getProductName());
-        return productRepository.update(product);
+        return productRepositoryImpl.update(product);
     }
 
     @Override
     public Product delete(final Product product) throws NoSuchElementException {
-        if (productRepository.existById(product.getProductId()) == false){
+        if (productRepositoryImpl.existById(product.getProductId()) == false){
             throw new NoSuchElementException("Product not found");
         }
-        return productRepository.delete(product);
+        return productRepositoryImpl.delete(product);
     }
 
     @Override
     public Product findById(final String productId){
-        return productRepository.findById(productId);
+        return productRepositoryImpl.findById(productId);
     }
 
     @Override
     public List<Product> findAll() {
-        final Iterator<Product> productIterator = productRepository.findAll();
+        final Iterator<Product> productIterator = productRepositoryImpl.findAll();
         final List<Product> allProduct = new ArrayList<>();
         productIterator.forEachRemaining(allProduct::add);
         return allProduct;

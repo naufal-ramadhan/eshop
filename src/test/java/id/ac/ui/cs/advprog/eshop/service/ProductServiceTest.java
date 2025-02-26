@@ -3,10 +3,9 @@ package id.ac.ui.cs.advprog.eshop.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import id.ac.ui.cs.advprog.eshop.repository.ProductRepository;
+import id.ac.ui.cs.advprog.eshop.repository.ProductRepositoryImpl;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class ProductServiceTest {
 
     @Mock
-    private ProductRepository productRepository;
+    private ProductRepositoryImpl productRepositoryImpl;
 
     @InjectMocks
     private ProductServiceImpl productService;
@@ -105,12 +104,12 @@ class ProductServiceTest {
         newProductNotValid2.setProductId("3aa241fc-128f-496b-b495-24407a692d54");
         newProductNotValid2.setProductName("");
         newProductNotValid2.setProductQuantity(100);
-        when(productRepository.update(product)).thenReturn(product);
-        when(productRepository.create(product)).thenReturn(product);
-        when(productRepository.findById(product.getProductId())).thenReturn(product);
+        when(productRepositoryImpl.update(product)).thenReturn(product);
+        when(productRepositoryImpl.create(product)).thenReturn(product);
+        when(productRepositoryImpl.findById(product.getProductId())).thenReturn(product);
 
         // Simpan product
-        product = productRepository.create(product);
+        product = productRepositoryImpl.create(product);
 
         // Validasi
         assertNotNull(product);
@@ -151,13 +150,13 @@ class ProductServiceTest {
     @Test
     void deleteProductTestIfExist(){
         // Inisiasi
-        when(productRepository.existById(product.getProductId())).thenReturn(true);
-        when(productRepository.delete(product)).thenReturn(product);
+        when(productRepositoryImpl.existById(product.getProductId())).thenReturn(true);
+        when(productRepositoryImpl.delete(product)).thenReturn(product);
 
         // Validasi Behaviour
         assertNotNull(product);
-        assertEquals(true, productRepository.existById(product.getProductId()));
-        assertEquals(product, productRepository.delete(product));
+        assertEquals(true, productRepositoryImpl.existById(product.getProductId()));
+        assertEquals(product, productRepositoryImpl.delete(product));
 
         // Assert Delete if Exist
         assertEquals(product, productService.delete(product));
@@ -166,11 +165,11 @@ class ProductServiceTest {
     @Test
     void deleteProductTestIfNotExist(){
         // Inisiasi
-        when(productRepository.existById(product.getProductId())).thenReturn(false);
+        when(productRepositoryImpl.existById(product.getProductId())).thenReturn(false);
 
         // Validasi Behaviour
         assertNotNull(product);
-        assertEquals(false, productRepository.existById(product.getProductId()));
+        assertEquals(false, productRepositoryImpl.existById(product.getProductId()));
 
         // Assert Delete if Not Exist
         assertThrows(NoSuchElementException.class, () -> {
@@ -181,7 +180,7 @@ class ProductServiceTest {
     @Test
     void testFindByProductId(){
         // Inisiasi
-        when(productRepository.findById(product.getProductId())).thenReturn(product);
+        when(productRepositoryImpl.findById(product.getProductId())).thenReturn(product);
 
         Product newProduct = new Product();
         newProduct.setProductId("3893edc6-47bf-46f9-b127-6cc993acd374");
@@ -201,7 +200,7 @@ class ProductServiceTest {
         productList.add(product);
 
         // Inisiasi
-        when(productRepository.findAll()).thenReturn(productList.iterator());
+        when(productRepositoryImpl.findAll()).thenReturn(productList.iterator());
 
         // Assert Delete if Not Exist
         productList = productService.findAll();
