@@ -111,3 +111,34 @@ Jawaban :
 
 2. workflow pada repo ini sudah mencakup Serangkaian dari CI (Continuous Integration) seperti Testing (Unit test) menggunakan Junit ketika kita melakukan pull request atau push ke seluruh branch, lalu Code Analysis menggunakan ScoreCard untuk branch master dan juga PMD untuk seluruh branch, selain itu workflowsnya juga lakukan upload artifacts untuk loggin atau hasil dari code analysis. Untuk Continuous Deployment (CD) juga sudah memenuhi dengan mengimplementasikan layanan koyeb yang akan me-track changes di branch master saya ketika ada perubahan dan akan lakukan auto deployment. Sehingga menurut saya pengaplikasian beberapa jobs pada workflow saya sudah bisa memenuhi definisi Continuous Integration and Continuous Deployment, karena sudah secara otomatatis dam berkelajutan melakukan integrasi dan deployment ketika terdapat perubahan
 </details>
+
+<details>
+  <summary>
+    Module 3
+  </summary>
+
+### Reflection <br>
+1  Explain what principles you apply to your project! <br>
+2  Explain the advantages of applying SOLID principles to your project with examples. <br>
+3  Explain the disadvantages of not applying SOLID principles to your project with examples. <br>
+--- <br>
+
+Jawaban  : <br>
+1.  Explain what principles you apply to your project! <br>
+    1).  Have you Implemented SRP? <br>
+    Sudah, dimana sebelumnya carController digabung di dalam productController, SRP (Single Responsibility Principle) yang berarti satu class dibuat dengan 1 tanggung jawab yang jelas. Sekarang carController dipisah dari productController dan tidak me-extend kelas productController lagi, sehingga sekarang lebih jelas. <br>
+    2). Have you Implement OCP? <br>
+    Sudah, Sebelumnya carRepository merupakan langsung implementation, sekarang saya buat carRepository memnjadi sebuah interface, dan implementationnya akan implement dari interface carRepository, OCP (Open Close Principle) adalah prinsip dimana kita bisa melakukan ekstensi tetapi tidak memodif behaviour. Dengan menggunakan interface, semisal kita ingin melakukan ekstensi kita bisa melakukannya dengan class baru dengan implement carRepository nya, sehingga tidak mengubah behaviour lama dengan fungsi tambahan (ekstensi).<br>
+    3). Have you Impelement LSP? <br>
+    Sudah, Sekarang carRepositoryImpl me implement carRepository, dan ini tidak membingungkan karena semua fungsi yang di inherit dari carRepository jelas. LSP itu sendiri adalah ketika kita membuat subclass/subtype dari suatu superclass, subclassnya tidak boleh memiliki behaviour yang berbeda dengan superclass.<br>
+    4). Have you implement ISP? <br>
+    Sudah, bisa dilihat pada repository terdapat interface-interface kecil yang memiliki satu fungsi saja, seperti Creatable, Deleteable, etc, dan interface tersebut di implement di interface yang lebih besar pada carRepository dan begitu juga jika ingin membuat class atau interface lain yang ingin mengeimplement salah satu dari interfacenya saja. ISP (Interface Segregation Principle) itu sendiri adalah prinsip yang menyatakan untuk menghindari interface yang besar sehingga kita tidak memaksa method-method yang tidak perlu pada suatu class yang akan mengimplement nya, sehingga lebih baik gunakan interface yang kecil seperti Creatable pada repo saya.<br>
+    5).  Have you implement DIP? <br>
+    Sudah, pada sebelumnya di carController dia membutuhkan dependency ke implement dari carRepository (Implement) sehingga dia bergantung langsung pada implementationnya. Dan sekarang saya membuat carRepostiroy menjadi interface, sehingga carController membutuhkan depencies ke interface (abstraction) bukan kepada implementationya. DIP (Dependency Inversion Principle) itu sendiri menyatakan bahwa module tingkat tinggi tidak boleh bergantung langsung dengan module tingkat rendah, keduanya harus bergantung pada abstraksi.<br>
+
+2.  Explain the advantages of applying SOLID principles to your project with examples. <br>
+    dengan menggunakan solid tentu aplikasi saya akan lebih mudah untuk di maintain, scale dan lebih fleksible. Untuk contoh pada aplikasi saya dengan menerapkan SRP pada carController maka akan lebih mudah untuk melakukan testing dan penerapan OCP pada carRepository semisal saya ingin extend fitur seperti membuat repostiroy khusus untuk mobil matic dan khusus untuk mobil manual saya bisa membuat yang baru tanpa perlu memodifikasi behaviour dan kode yang lama karena tetap mengimplementasi interface carRepository. <br>
+
+3. Explain the disadvantages of not applying SOLID principles to your project with examples. <br>
+   Jika kita tidak mengimplementasikan prinsip SOLID pada aplikasi, tentu akan menyusahkan kita semisal ingin me-maintain kode kita dalam jangka waktu yang panjang. Contoh semisal saya tidak menerapkan LSP dengan benar, saya memiliki interface carRepostiry dengan method untuk menghitung jumlah ban seluruh mobil yang tersimpan, tapi saya implementasikan ke repository untuk motor, dan mengubah behaviournya karena jumlah dari bannya beda, jika saya ingin melihat kode saya lagi dalam beberapa bulan kedepan, akan membuat saya bingung karena tidak konsisten. Untuk pelanggaran ISP, semisal saya punya interface besar yang kurang lebih bisa create update dan delete suatu objek, dan saya perlu membuat kelas implementasi baru tetapi hanya bisa lakukan create saja, dan jika saya immplement interface sebelumnya saya harus mengeimplementasi 3 method tersebut (create, update , delete) dan ini akan menyusahkan saya karena perlu membuat interface berbeda lagi untuk implementasi kelas tersebut. Dan terakhir jika tidak implementasi DIP, semisal saya ada sebuah service yang membutuhkan dependency dengan sebuah kelas implementasi repository, dan ternyata ada perubahan dbms sehingga pada repository harus ada yang diubah kodenya, tetapi karena kita gunakan implementasi langsung maka kita harus mengubah juga kode pada service, jika kita gunakan abstraksi pada service kita tidak perlu mengubah/memodifikasi lagi.
+</details>
