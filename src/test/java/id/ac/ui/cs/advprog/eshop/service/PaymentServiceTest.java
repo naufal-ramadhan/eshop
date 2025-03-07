@@ -10,8 +10,10 @@ import id.ac.ui.cs.advprog.eshop.repository.PaymentRepository;
 import id.ac.ui.cs.advprog.eshop.repository.PaymentRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,15 +21,20 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class PaymentServiceTest {
 
     @Mock
-    private PaymentRepository paymentRepository;
+    private PaymentRepositoryImpl paymentRepository;
+
+    @Mock
+    private OrderServiceImpl orderRepository;
 
     @InjectMocks
-    private PaymentService paymentService;
+    private PaymentServiceImpl paymentService;
 
     private Payment payment;
     private List<Payment> payments;
@@ -35,9 +42,7 @@ public class PaymentServiceTest {
 
     @BeforeEach
     void setUp() {
-        paymentRepository = new PaymentRepositoryImpl();
         payments = new ArrayList<>();
-
         List<Product> products = new ArrayList<>();
         Product product1 = new Product();
         product1.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
@@ -45,14 +50,14 @@ public class PaymentServiceTest {
         product1.setProductQuantity(2);
         products.add(product1);
 
-        Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
+        order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
                 products, 1708560000L, "Safira Sudrajat");
         order.setStatus(OrderStatus.WAITING_PAYMENT.getValue());
     }
 
     @Test
     void testAddPaymentVoucherValid(){
-        when(paymentRepository.create(payment)).thenReturn(payment);
+        when(paymentRepository.create(any(Payment.class))).thenReturn(payment);
 
         Map<String, String> paymentData = new HashMap<String, String>();
         paymentData.put("voucherCode", "ESHOP1234ABC5678");
@@ -69,7 +74,7 @@ public class PaymentServiceTest {
 
     @Test
     void testAddPaymentVoucherNotValid(){
-        when(paymentRepository.create(payment)).thenReturn(payment);
+        when(paymentRepository.create(any(Payment.class))).thenReturn(payment);
 
         Map<String, String> paymentData = new HashMap<String, String>();
         paymentData.put("voucherCode", "1234ABC5678");
@@ -86,7 +91,7 @@ public class PaymentServiceTest {
 
     @Test
     void testAddPaymentCashValid(){
-        when(paymentRepository.create(payment)).thenReturn(payment);
+        when(paymentRepository.create(any(Payment.class))).thenReturn(payment);
 
         Map<String, String> paymentData = new HashMap<String, String>();
         paymentData.put("address", "New York");
@@ -104,7 +109,7 @@ public class PaymentServiceTest {
 
     @Test
     void testAddPaymentCashNotValid(){
-        when(paymentRepository.create(payment)).thenReturn(payment);
+        when(paymentRepository.create(any(Payment.class))).thenReturn(payment);
 
         Map<String, String> paymentData = new HashMap<String, String>();
         paymentData.put("deliveryFee", "");
@@ -121,7 +126,7 @@ public class PaymentServiceTest {
 
     @Test
     void testAddPaymentBankValid(){
-        when(paymentRepository.create(payment)).thenReturn(payment);
+        when(paymentRepository.create(any(Payment.class))).thenReturn(payment);
 
         Map<String, String> paymentData = new HashMap<String, String>();
         paymentData.put("bankName", "Mandiri");
@@ -139,7 +144,7 @@ public class PaymentServiceTest {
 
     @Test
     void testAddPaymentBankNotValid(){
-        when(paymentRepository.create(payment)).thenReturn(payment);
+        when(paymentRepository.create(any(Payment.class))).thenReturn(payment);
 
         Map<String, String> paymentData = new HashMap<String, String>();
         paymentData.put("BankName", "");
@@ -156,12 +161,11 @@ public class PaymentServiceTest {
 
     @Test
     void testSetStatusSuccess(){
-        when(paymentRepository.findById(payment.getId())).thenReturn(payment);
         Map<String, String> paymentData = new HashMap<String, String>();
         paymentData.put("BankName", "");
         assertEquals(order.getStatus(), OrderStatus.WAITING_PAYMENT.getValue());
-
         Payment old = paymentService.addPayment(order, PaymentMethod.BANK.getValue(), paymentData);
+
         assertNotNull(old);
         assertEquals(PaymentMethod.BANK.getValue(), old.getMethod());
         assertEquals(PaymentStatus.REJECTED.getValue(), old.getStatus());
@@ -178,13 +182,11 @@ public class PaymentServiceTest {
 
     @Test
     void testSetStatusRejected(){
-        when(paymentRepository.findById(payment.getId())).thenReturn(payment);
         Map<String, String> paymentData = new HashMap<String, String>();
         paymentData.put("bankName", "Mandiri");
         paymentData.put("referenceCode", "100");
-        assertEquals(order.getStatus(), OrderStatus.WAITING_PAYMENT.getValue());
-
         Payment old = paymentService.addPayment(order, PaymentMethod.BANK.getValue(), paymentData);
+        assertEquals(order.getStatus(), OrderStatus.SUCCESS.getValue());
 
         assertNotNull(old);
         assertEquals(PaymentMethod.BANK.getValue(), old.getMethod());
@@ -202,13 +204,13 @@ public class PaymentServiceTest {
 
     @Test
     void testSetStatusNotValid() {
-        when(paymentRepository.findById(payment.getId())).thenReturn(payment);
         Map<String, String> paymentData = new HashMap<String, String>();
         paymentData.put("bankName", "Mandiri");
         paymentData.put("referenceCode", "100");
-        assertEquals(order.getStatus(), OrderStatus.WAITING_PAYMENT.getValue());
+
 
         Payment old = paymentService.addPayment(order, PaymentMethod.BANK.getValue(), paymentData);
+        assertEquals(order.getStatus(), OrderStatus.SUCCESS.getValue());
 
         assertNotNull(old);
         assertEquals(PaymentMethod.BANK.getValue(), old.getMethod());
