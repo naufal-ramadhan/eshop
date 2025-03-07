@@ -1,6 +1,8 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
 import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,12 +35,12 @@ public class PaymentTest {
 
     @Test
     void testCreatePaymentValid() {
-        Payment payment = new Payment("c2efa9cf-a359-4261-a7d0-2a8542a80826", "VOUCHER", "SUCCESS", paymentData, order);
+        Payment payment = new Payment("c2efa9cf-a359-4261-a7d0-2a8542a80826", PaymentMethod.VOUCHER.getValue(), PaymentStatus.SUCCESS.getValue(), paymentData, order);
 
         assertNotNull(payment);
         assertEquals("c2efa9cf-a359-4261-a7d0-2a8542a80826", payment.getId());
-        assertEquals("VOUCHER", payment.getMethod());
-        assertEquals("SUCCESS", payment.getStatus());
+        assertEquals(PaymentMethod.VOUCHER.getValue(), payment.getMethod());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
         assertEquals("ESHOP1234ABC5678", payment.getPaymentData().get("voucherCode"));
         assertEquals(OrderStatus.SUCCESS.getValue(), payment.getOrder().getStatus());
     }
@@ -46,14 +48,14 @@ public class PaymentTest {
     @Test
     void testCreatPaymentNotValidStatus(){
         assertThrows(IllegalArgumentException.class, () -> {
-            Payment payment = new Payment("c2efa9cf-a359-4261-a7d0-2a8542a80826", "VOUCHER", "PENDING", paymentData, order);
+            Payment payment = new Payment("c2efa9cf-a359-4261-a7d0-2a8542a80826", PaymentMethod.VOUCHER.getValue(), "PENDING", paymentData, order);
         });
     }
 
     @Test
     void testCreatPaymentNotValidMethod(){
         assertThrows(IllegalArgumentException.class, () -> {
-            Payment payment = new Payment("c2efa9cf-a359-4261-a7d0-2a8542a80826", "CREDIT", "SUCCESS", paymentData, order);
+            Payment payment = new Payment("c2efa9cf-a359-4261-a7d0-2a8542a80826", "CREDIT", PaymentStatus.SUCCESS.getValue(), paymentData, order);
         });
     }
 }

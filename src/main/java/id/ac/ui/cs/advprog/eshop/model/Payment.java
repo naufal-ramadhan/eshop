@@ -1,5 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,13 +21,13 @@ public class Payment {
         this.paymentData = paymentData;
         this.order = order;
 
-        if (method.equals("VOUCHER") || method.equals("BANK") || method.equals("CASH")) {
+        if (PaymentMethod.contains(method)) {
             this.method = method;
         } else {
             throw new IllegalArgumentException();
         }
 
-        if (status.equals("SUCCESS") || status.equals("REJECTED")){
+        if (PaymentStatus.contains(status)) {
             this.status = status;
         } else {
             throw new IllegalArgumentException();
