@@ -142,3 +142,26 @@ Jawaban  : <br>
 3. Explain the disadvantages of not applying SOLID principles to your project with examples. <br>
    Jika kita tidak mengimplementasikan prinsip SOLID pada aplikasi, tentu akan menyusahkan kita semisal ingin me-maintain kode kita dalam jangka waktu yang panjang. Contoh semisal saya tidak menerapkan LSP dengan benar, saya memiliki interface carRepostiry dengan method untuk menghitung jumlah ban seluruh mobil yang tersimpan, tapi saya implementasikan ke repository untuk motor, dan mengubah behaviournya karena jumlah dari bannya beda, jika saya ingin melihat kode saya lagi dalam beberapa bulan kedepan, akan membuat saya bingung karena tidak konsisten. Untuk pelanggaran ISP, semisal saya punya interface besar yang kurang lebih bisa create update dan delete suatu objek, dan saya perlu membuat kelas implementasi baru tetapi hanya bisa lakukan create saja, dan jika saya immplement interface sebelumnya saya harus mengeimplementasi 3 method tersebut (create, update , delete) dan ini akan menyusahkan saya karena perlu membuat interface berbeda lagi untuk implementasi kelas tersebut. Dan terakhir jika tidak implementasi DIP, semisal saya ada sebuah service yang membutuhkan dependency dengan sebuah kelas implementasi repository, dan ternyata ada perubahan dbms sehingga pada repository harus ada yang diubah kodenya, tetapi karena kita gunakan implementasi langsung maka kita harus mengubah juga kode pada service, jika kita gunakan abstraksi pada service kita tidak perlu mengubah/memodifikasi lagi.
 </details>
+
+<details>
+  <summary>
+    Module 4
+  </summary>
+
+### Reflection <br>
+1.  Reflect based on Percival (2017) proposed self-reflective questions (in “Principles and Best Practice of Testing” submodule, chapter “Evaluating Your Testing Objectives”), whether this TDD flow is useful enough for you or not. If not, explain things that you need to do next time you make more tests. <br>
+2.  You have created unit tests in Tutorial. Now reflect whether your tests have successfully followed F.I.R.S.T. principle or not. If not, explain things that you need to do the next time you create more tests. <br>
+    --- <br>
+
+Jawaban  : <br>
+1.  Menurut saya pendekatan coding dengan TDD sangat berguna, berapa kali ketika saya mengerjakan ini lupa melakukan hal-hal yang gampang terlewat, tetapi dikarenakan saya sudah membuat unit test sebelumnya jadi sadar. Contohnya ketika saya implementasi SetStatus pada paymentService, seharusnya jika kita set statusnya jadi success order yang bersangkutan juga sukses, tapi tadi saya lupa dan tertangkap oleh unit test yang telah saya buat. Memang dalam pembuatan unit test ini memakan waktu yang cukup lama karena harus memikirkan kemungkinan nya dan ditambah dengan saya sendiri yang kurang familiar dengan sintax mocks ini. sering kali saya terkena error yang tidak begitu jelas, seperti Object mocks yang tidak sengaja saya inisiasi ulang, sehingga ketika saya ingin mocks behaviournya dengna when() dia malah error, dan memakan waktu juga untuk menemukan masalahnya. Hal yang perlu saya tingkatkan lagi adalah tentang sintax dan cara kerja dari mockito ini, sehingga waktu pengerjaannya bisa lebih cepat.
+
+2.  Untuk prinsip F.I.R.S.T
+    1) Untuk Fast, Sepertinya unit test saya sudah cukup cepat untuk dijalankan berulang, saya sudah mengusahakan untuk menggunakan mocks daripada menggunakan object langsung sehingga unit test saya jauh lebih ringan.
+    2) Isolated/Independent, Semua unit test saya berjalan sendiri dan tidak bergantung dengan unit test lain. Selain itu saya juga membuat unit test yang berbeda untuk tiap kasus.
+    3) Repeateable, dikarenakan unit test saya cukup ringan dengan menggunakan mocks tadi, dan terisolasi sehingga hasil yang dihasilkan unit test cukup konsisten.
+    4) Self-Validating, Untuk ini saya rasa sudah sangat baik, karena assertion yang dituliskan jelas dan sesuai dengan spesifikasi ditambah saya sendiri yang sudah berapa kali diselamatkan dengan unit test ini seperti yang saya ceritakan di soal nomor 1.
+    5) Timely, Untuk ini sebagian besar test yang sudah berhasil menerapi Timely, tetapi ada juga yang harus saya ubah setelah implementasi, dikarenakan ada banyak sintax error atau kesalahan teknis yang baru terlihat setelah saya buat implementasinya. Seperti objects mocks tadi yang tidak sengaja saya inisiasi ulang di SetUp.
+
+Untuk langkah yang harus saya lakukan kedepannya adalah harus lebih membiasakan diri dengan sintaks dan sisi teknis dari mockito dan unit testing ini.
+</details>
