@@ -15,6 +15,21 @@ public class Payment {
     private Order order;
 
     public Payment(String id, String method, String status, Map<String, String> paymentData, Order order) {
+        this.id = id;
+        this.paymentData = paymentData;
+        this.order = order;
+
+        if (method.equals("VOUCHER") || method.equals("BANK") || method.equals("CASH")) {
+            this.method = method;
+        } else {
+            throw new IllegalArgumentException();
+        }
+
+        if (status.equals("SUCCESS") || status.equals("REJECTED")){
+            this.status = status;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
 }
